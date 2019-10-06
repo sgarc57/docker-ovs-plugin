@@ -242,17 +242,17 @@ func (h *Handler) initMux() {
 
 // ServeTCP makes the handler to listen for request in a given TCP address.
 // It also writes the spec file on the right directory for docker to read.
-func (h *Handler) ServeTCP(pluginName, addr string) error {
-	return h.listenAndServe("tcp", addr, pluginName)
+func (h *Handler) ServeTCP(pluginGroupId, addr string) error {
+	return h.listenAndServe("tcp", addr, pluginGroupId)
 }
 
 // ServeUnix makes the handler to listen for requests in a unix socket.
 // It also creates the socket file on the right directory for docker to read.
-func (h *Handler) ServeUnix(systemGroup, addr string) error {
-	return h.listenAndServe("unix", addr, systemGroup)
+func (h *Handler) ServeUnix(systemGroupId, addr string) error {
+	return h.listenAndServe("unix", addr, systemGroupId)
 }
 
-func (h *Handler) listenAndServe(proto, addr, group string) error {
+func (h *Handler) listenAndServe(proto, addr, groupId int) error {
 	var (
 		start = make(chan struct{})
 		l     net.Listener
@@ -267,9 +267,9 @@ func (h *Handler) listenAndServe(proto, addr, group string) error {
 
 	switch proto {
 	case "tcp":
-		l, spec, err = newTCPListener(group, addr, start)
+		l, spec, err = newTCPListener(groupId, addr, start)
 	case "unix":
-		l, spec, err = newUnixListener(addr, group, start)
+		l, spec, err = newUnixListener(addr, groupId, start)
 	}
 
 	if spec != "" {

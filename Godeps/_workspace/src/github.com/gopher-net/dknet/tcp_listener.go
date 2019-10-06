@@ -5,8 +5,9 @@ import (
 	"net"
 	"os"
 	"path/filepath"
+        "strconv"
 
-	"github.com/docker/docker/pkg/sockets"
+	"github.com/docker/go-connections/sockets"
 )
 
 const (
@@ -14,7 +15,8 @@ const (
 )
 
 func newTCPListener(
-	volumeDriverName string,
+        //changed to int
+	volumeDriverName int,
 	address string,
 	start <-chan struct{},
 ) (net.Listener, string, error) {
@@ -29,11 +31,11 @@ func newTCPListener(
 	return listener, spec, nil
 }
 
-func writeSpec(name string, address string) (string, error) {
+func writeSpec(name int, address string) (string, error) {
 	if err := os.MkdirAll(pluginSpecDir, 0755); err != nil {
 		return "", err
 	}
-	spec := filepath.Join(pluginSpecDir, name+".spec")
+	spec := filepath.Join(pluginSpecDir, strconv.Itoa(name) + ".spec")
 	url := "tcp://" + address
 	if err := ioutil.WriteFile(spec, []byte(url), 0644); err != nil {
 		return "", err
