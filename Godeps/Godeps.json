@@ -30,9 +30,7 @@
 			"Rev": "a34a1d598c6096ed8b5ce5219e77d68e5cd85462"
 		},
 		{
-			"ImportPath": "github.com/docker/docker/pkg/sockets",
-			"Comment": "v1.9.1",
-			"Rev": "a34a1d598c6096ed8b5ce5219e77d68e5cd85462"
+			"ImportPath": "github.com/docker/go-connections/sockets"
 		},
 		{
 			"ImportPath": "github.com/docker/docker/pkg/units",
